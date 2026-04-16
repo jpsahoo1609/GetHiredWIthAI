@@ -8,7 +8,7 @@ import uuid
 from supabase import create_client, Client
 from datetime import datetime
 import hashlib
-import os 
+import os
 
 st.set_page_config(page_title="AI Resume Agent", layout="wide", initial_sidebar_state="collapsed")
 
@@ -21,14 +21,13 @@ supabase_key = os.getenv("SUPABASE_KEY")
 
 # SAFETY CHECK
 if not openai_api_key:
-    st.error("❌ OPENAI_API_KEY not found. Check Railway Variables.")
+    st.error("OPENAI_API_KEY not found. Check Railway Variables.")
     st.stop()
 
 if not supabase_url or not supabase_key:
-    st.error("❌ Supabase credentials missing. Check Railway Variables.")
+    st.error("Supabase credentials missing. Check Railway Variables.")
     st.stop()
 
-# INITIALIZE CLIENTS
 client = OpenAI(api_key=openai_api_key)
 supabase: Client = create_client(supabase_url, supabase_key)
 
@@ -46,6 +45,22 @@ st.markdown("""<style>
     
     /* Bigger form labels */
     .stTextInput label, .stSelectbox label, .stMultiSelect label, .stNumberInput label { font-size: 16px !important; font-weight: 600 !important; color: #a8c5ff !important; }
+    
+    /* Force consistent form field styling across all browsers */
+    .stTextInput input, .stNumberInput input, .stSelectbox select, .stTextArea textarea { 
+        background-color: #1a1f2e !important; 
+        color: #ffffff !important; 
+        border: 1px solid #667eea !important; 
+        border-radius: 8px !important;
+    }
+    .stTextInput input::placeholder { color: #888888 !important; }
+    .stSelectbox > div > div { background-color: #1a1f2e !important; color: #ffffff !important; }
+    .stMultiSelect > div > div { background-color: #1a1f2e !important; color: #ffffff !important; }
+    .stMultiSelect span { color: #ffffff !important; }
+    div[data-baseweb="select"] { background-color: #1a1f2e !important; }
+    div[data-baseweb="select"] * { color: #ffffff !important; }
+    div[data-baseweb="input"] { background-color: #1a1f2e !important; }
+    div[data-baseweb="input"] input { background-color: #1a1f2e !important; color: #ffffff !important; }
     
     h1 { color: #ffffff !important; font-weight: 800 !important; }
     h2 { color: #ffffff !important; font-weight: 700 !important; }
@@ -341,7 +356,7 @@ if st.session_state.page == "Home":
     st.markdown("""
     <div style='text-align: center; padding: 20px 0; animation: slideUp 0.8s ease-out;'>
         <p style='color: #667eea; font-size: 14px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px;'>✨ AI-POWERED CAREER ACCELERATOR</p>
-        <h1 style='font-size: 52px; margin: 0; background: linear-gradient(90deg, #fff, #a8c5ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;'>Welcome Hustler 👋</h1>
+        <h1 style='font-size: 52px; margin: 0; color: #a8c5ff;'>Welcome Hustler 👋</h1>
         <p style='color: #888; font-size: 18px; margin-top: 10px;'>You landed on the right website.</p>
     </div>
     """, unsafe_allow_html=True)
@@ -598,7 +613,7 @@ if st.session_state.is_logged_in and st.session_state.page not in ["Login", "Sig
     st.markdown("---")
 
     if st.session_state.page == "Profile":
-        st.header("My Profile")
+        st.title("My Profile")
         profile = st.session_state.profile
         
         st.text_input("Email (Read-only)", value=st.session_state.user_email, disabled=True, key="profile_email")
